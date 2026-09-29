@@ -253,21 +253,32 @@ public static class Program
 	{
 		if (!string.IsNullOrWhiteSpace(requested))
 		{
+			if (!Os.IsConfigLoaded)
+				throw new ArgumentException(MissingConfigurationDiagnostic());
 			var configured = ConfiguredCloudProviders();
 			return configured.FirstOrDefault(item => string.Equals(item, requested, StringComparison.OrdinalIgnoreCase))
 				?? throw new ArgumentException(
 					$"The cloud provider '{requested}' is not configured. Available: {string.Join(", ", configured)}.");
 		}
+		if (root == ".")
+			return null;
 		try
 		{
 			_ = new RaiRelPath(root);
-			return ConfiguredCloudProviders().FirstOrDefault();
 		}
 		catch (ArgumentException)
 		{
 			return null;
 		}
+
+		if (!Os.IsConfigLoaded)
+			throw new ArgumentException(MissingConfigurationDiagnostic());
+		return ConfiguredCloudProviders().FirstOrDefault();
 	}
+
+	internal static string MissingConfigurationDiagnostic()
+		=> $"RAIkeep configuration was not found at '{Os.DefaultConfigFileLocation}'. " +
+			"Run 'amafu init' to detect cloud providers and create it.";
 
 	private static string[] ConfiguredCloudProviders()
 	{

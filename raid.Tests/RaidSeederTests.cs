@@ -16,6 +16,15 @@ public sealed class RaidSeederTests : IDisposable
 	public void Dispose() => Cleanup();
 
 	[Fact]
+	public void MissingConfigurationDiagnostic_DirectsOperatorToAmafu()
+	{
+		Assert.Equal(
+			"RAIkeep configuration was not found at '~/.config/RAIkeep.json5'. " +
+			"Run 'amafu init' to detect cloud providers and create it.",
+			Program.MissingConfigurationDiagnostic());
+	}
+
+	[Fact]
 	public void Version_IsSuiteVersion()
 	{
 		var output = new StringWriter();

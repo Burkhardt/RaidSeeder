@@ -4,6 +4,16 @@
 artifact set in an ImageTree: authoritative `.raid`, derived `.puml`, and
 derived `.svg`.
 
+RaidSeeder preserves the authoritative semantic diagram manifest and produces
+deterministic textual and visual projections without turning the generated
+`.puml` or `.svg` files into competing sources of truth.
+
+**CLI tools:** use `raid` to import, export, refresh, and validate diagram
+artifact families. Use [`amafu init`](https://github.com/Burkhardt/Amafu) to
+detect cloud drives and create the shared RAIkeep configuration before using
+cloud-backed addressing. `iorg` remains available for general ImageTree file
+discovery and movement when no diagram refresh is required.
+
 The command grammar is verb-first. A reserved verb placed after a modifier
 (for example `raid -n refresh ...`) exits `2` before filesystem access and
 prints the corrected `raid refresh -n ...` invocation. `-v`/`--version` takes
@@ -57,6 +67,13 @@ root and appends `Image`. `-t|--tenant` selects the subscriber directory;
 `ItemIdTree8x2`. `--number` and `--name-ext` remain separate from `ItemId`, so
 `--name Workflow --number 1 --name-ext AD` produces `Workflow_01_AD.*` while
 the buckets remain derived from `Workflow`.
+
+If cloud-backed addressing is requested before the shared configuration exists,
+`raid` reports:
+
+```text
+RAIkeep configuration was not found at '~/.config/RAIkeep.json5'. Run 'amafu init' to detect cloud providers and create it.
+```
 
 `.raid` is authoritative. Export derives content in memory and does not trust
 or mutate a stored sibling. Refresh writes a derivative only when it is missing
