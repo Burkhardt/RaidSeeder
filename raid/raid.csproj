@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<Title>RaidSeeder</Title>
 		<PackageId>RaidSeeder</PackageId>
-		<Version>4.4.3</Version>
+		<Version>4.4.4</Version>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<FileVersion>$(Version)</FileVersion>
 		<InformationalVersion>$(Version)</InformationalVersion>
@@ -26,13 +26,13 @@
 		<RepositoryType>git</RepositoryType>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<PackageTags>raid;diagram;PlantUML;SVG;CLI;tool</PackageTags>
-		<PackageReleaseNotes>4.4.3 synchronized RAIkeep patch release for CR043.</PackageReleaseNotes>
+		<PackageReleaseNotes>4.4.4 synchronized RAIkeep release for accepted CR044.</PackageReleaseNotes>
 		<RAIkeepRoot Condition="'$(RAIkeepRoot)' == '' and Exists('../../RaiDiagram/RaiDiagram.csproj')">../..</RAIkeepRoot>
 		<RaiDiagramProjectPath Condition="'$(RAIkeepRoot)' != '' and Exists('$(RAIkeepRoot)/RaiDiagram/RaiDiagram.csproj')">$(RAIkeepRoot)/RaiDiagram/RaiDiagram.csproj</RaiDiagramProjectPath>
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == '' and '$(ContinuousIntegrationBuild)' == 'true'">false</UseLocalRAIkeepSources>
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == '' and '$(RaiDiagramProjectPath)' != ''">true</UseLocalRAIkeepSources>
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == ''">false</UseLocalRAIkeepSources>
-		<RaiDiagramPackageVersion Condition="'$(RaiDiagramPackageVersion)' == ''">4.4.3</RaiDiagramPackageVersion>
+		<RaiDiagramPackageVersion Condition="'$(RaiDiagramPackageVersion)' == ''">4.4.4</RaiDiagramPackageVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
