@@ -1,4 +1,10 @@
 # `raid` — RAI Diagram Seeder & Manager
+## 4.4.6
+
+Participates in the synchronized 4.4.6 dependency line; reports `raid v4.4.6`. Diagram artifact behavior is unchanged.
+
+Release notes: [RaidSeeder_RELEASE_NOTES_4.4.6.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.4.6.md).
+
 
 `RaidSeeder` installs the `raid` command. It manages the co-located diagram
 artifact set in an ImageTree: authoritative `.raid`, derived `.puml`, and
