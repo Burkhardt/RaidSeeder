@@ -1,4 +1,11 @@
 # `raid` — RAI Diagram Seeder & Manager
+
+## 4.4.8
+
+Coordinated 4.4.8 dependency alignment; raid reports version 4.4.8.
+
+Release notes: [RaidSeeder_RELEASE_NOTES_4.4.8.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.4.8.md).
+
 ## 4.4.6
 
 Participates in the synchronized 4.4.6 dependency line; reports `raid v4.4.6`. Diagram artifact behavior is unchanged.
@@ -26,7 +33,7 @@ prints the corrected `raid refresh -n ...` invocation. `-v`/`--version` takes
 immediate precedence wherever it appears.
 
 ```bash
-dotnet tool install --global RaidSeeder --version 4.4.6
+dotnet tool install --global RaidSeeder --version 4.4.8
 raid --version
 ```
 
@@ -35,7 +42,7 @@ same command, migrate explicitly:
 
 ```bash
 dotnet tool uninstall --global RaidCli
-dotnet tool install --global RaidSeeder --version 4.4.6
+dotnet tool install --global RaidSeeder --version 4.4.8
 ```
 
 ## Commands
