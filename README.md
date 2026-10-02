@@ -26,7 +26,7 @@ prints the corrected `raid refresh -n ...` invocation. `-v`/`--version` takes
 immediate precedence wherever it appears.
 
 ```bash
-dotnet tool install --global RaidSeeder --version 4.4.5
+dotnet tool install --global RaidSeeder --version 4.4.6
 raid --version
 ```
 
@@ -35,7 +35,7 @@ same command, migrate explicitly:
 
 ```bash
 dotnet tool uninstall --global RaidCli
-dotnet tool install --global RaidSeeder --version 4.4.5
+dotnet tool install --global RaidSeeder --version 4.4.6
 ```
 
 ## Commands
