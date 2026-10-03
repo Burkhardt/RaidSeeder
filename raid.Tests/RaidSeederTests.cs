@@ -30,7 +30,7 @@ public sealed class RaidSeederTests : IDisposable
 		var output = new StringWriter();
 		var exitCode = Program.Run(["--version"], output, new StringWriter());
 		Assert.Equal(0, exitCode);
-		Assert.Equal("raid v4.4.8", output.ToString().Trim());
+		Assert.Equal("raid v4.5.0", output.ToString().Trim());
 	}
 
 	[Fact]
@@ -62,7 +62,7 @@ public sealed class RaidSeederTests : IDisposable
 		var exitCode = Program.Run(args, output, error);
 
 		Assert.Equal(0, exitCode);
-		Assert.Equal("raid v4.4.8", output.ToString().Trim());
+		Assert.Equal("raid v4.5.0", output.ToString().Trim());
 		Assert.Empty(error.ToString());
 	}
 
