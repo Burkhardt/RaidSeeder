@@ -1,5 +1,11 @@
 # `raid` — RAI Diagram Seeder & Manager
 
+## 4.5.2
+
+Coordinated 4.5.2 release; public behavior is aligned with the synchronized platform.
+
+Release notes: [RaidSeeder_RELEASE_NOTES_4.5.2.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.2.md).
+
 ## 4.5.0
 
 Coordinated 4.5.0 dependency alignment; raid reports version 4.5.0.
@@ -39,7 +45,7 @@ prints the corrected `raid refresh -n ...` invocation. `-v`/`--version` takes
 immediate precedence wherever it appears.
 
 ```bash
-dotnet tool install --global RaidSeeder --version 4.5.0
+dotnet tool install --global RaidSeeder --version 4.5.2
 raid --version
 ```
 
@@ -48,7 +54,7 @@ same command, migrate explicitly:
 
 ```bash
 dotnet tool uninstall --global RaidCli
-dotnet tool install --global RaidSeeder --version 4.5.0
+dotnet tool install --global RaidSeeder --version 4.5.2
 ```
 
 ## Commands
@@ -121,7 +127,7 @@ Foldable command reference: [API.md](https://github.com/Burkhardt/RaidSeeder/blo
 Foldable API documentation for the underlying model and artifact library is in
 [RaiDiagram API.md](https://github.com/Burkhardt/RaiDiagram/blob/main/API.md).
 
-Latest release notes: [RaidSeeder_RELEASE_NOTES_4.5.0.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.0.md).
+Latest release notes: [RaidSeeder_RELEASE_NOTES_4.5.2.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.2.md).
 
 Governing request: [CR037_AIA_to_RAIkeep_RaidSeeder_Diagram_Artifact_Management.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/CR037_AIA_to_RAIkeep_RaidSeeder_Diagram_Artifact_Management.md).
 

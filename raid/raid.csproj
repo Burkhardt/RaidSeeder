@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<Title>RaidSeeder</Title>
 		<PackageId>RaidSeeder</PackageId>
-		<Version>4.5.0</Version>
+		<Version>4.5.2</Version>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<FileVersion>$(Version)</FileVersion>
 		<InformationalVersion>$(Version)</InformationalVersion>
@@ -26,13 +26,13 @@
 		<RepositoryType>git</RepositoryType>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<PackageTags>raid;diagram;PlantUML;SVG;CLI;tool</PackageTags>
-		<PackageReleaseNotes>Coordinated 4.5.0 dependency alignment; raid reports version 4.5.0.</PackageReleaseNotes>
+		<PackageReleaseNotes>Coordinated 4.5.2 release; runtime behavior is unchanged. Internal package dependencies, where present, align to 4.5.2.</PackageReleaseNotes>
 		<RAIkeepRoot Condition="'$(RAIkeepRoot)' == '' and Exists('../../RaiDiagram/RaiDiagram.csproj')">../..</RAIkeepRoot>
 		<RaiDiagramProjectPath Condition="'$(RAIkeepRoot)' != '' and Exists('$(RAIkeepRoot)/RaiDiagram/RaiDiagram.csproj')">$(RAIkeepRoot)/RaiDiagram/RaiDiagram.csproj</RaiDiagramProjectPath>
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == '' and '$(ContinuousIntegrationBuild)' == 'true'">false</UseLocalRAIkeepSources>
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == '' and '$(RaiDiagramProjectPath)' != ''">true</UseLocalRAIkeepSources>
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == ''">false</UseLocalRAIkeepSources>
-		<RaiDiagramPackageVersion Condition="'$(RaiDiagramPackageVersion)' == ''">4.5.0</RaiDiagramPackageVersion>
+		<RaiDiagramPackageVersion Condition="'$(RaiDiagramPackageVersion)' == ''">4.5.2</RaiDiagramPackageVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
