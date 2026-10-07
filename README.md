@@ -1,5 +1,45 @@
 # `raid` — RAI Diagram Seeder & Manager
 
+## 4.5.5
+
+Coordinated 4.5.5 release; public behavior is aligned with the synchronized platform.
+
+Release notes: [RaidSeeder_RELEASE_NOTES_4.5.5.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.5.md).
+
+### Object and deployment import (CR052)
+
+```plantuml
+@startuml Orders
+object "Order42 : Order" as order {
+  Number = 42
+  Details = { 'Currency': 'EUR', 'Total': '25.00' }
+}
+actor "Customer" as customer
+customer --> order : places
+@enduml
+```
+
+```bash
+raid import --puml Orders.puml --out ./artifacts --name Orders --name-ext OD
+```
+
+ObjectProperties preserves ordered text slot values in schema 1.1 and renders
+visible SVG compartments. Existing schema 1.0 remains readable. Deployment
+PlantUML supports `node`, `cloud`, `component`, `database`, `artifact`, `folder`,
+and `frame`, with resident containment and protocol labels. Use `_VD` via
+`--name-ext VD` or `DistributionDiagramBuilder` for deployment models.
+
+Parsing errors report source:line:column and codes PUML001–PUML005 before writes.
+PUML101 warns about retained presentation hints not applied by the canvas renderer.
+RAID201 identifies unsupported rendering. Unsupported constructs, includes, and
+macros are rejected instead of silently dropping content or inventing classes.
+
+PlantUML is the active interchange format. The retained, frozen deployment-only
+Poseidon/OTW importer is available as `raid import-xmi file.xmi --list-diagrams`
+and `raid import-xmi file.xmi --diagram <id-or-name> --out ./artifacts --name Servers`.
+`import-otw` is an alias. It preserves drawing bounds and authored paths, without
+claiming complete legacy visual fidelity or support for other XMI diagram families.
+
 ## 4.5.4
 
 Coordinated 4.5.4 release; public behavior is aligned with the synchronized platform.
@@ -57,7 +97,7 @@ prints the corrected `raid refresh -n ...` invocation. `-v`/`--version` takes
 immediate precedence wherever it appears.
 
 ```bash
-dotnet tool install --global RaidSeeder --version 4.5.4
+dotnet tool install --global RaidSeeder --version 4.5.5
 raid --version
 ```
 
@@ -66,7 +106,7 @@ same command, migrate explicitly:
 
 ```bash
 dotnet tool uninstall --global RaidCli
-dotnet tool install --global RaidSeeder --version 4.5.4
+dotnet tool install --global RaidSeeder --version 4.5.5
 ```
 
 ## Commands
@@ -139,7 +179,7 @@ Foldable command reference: [API.md](https://github.com/Burkhardt/RaidSeeder/blo
 Foldable API documentation for the underlying model and artifact library is in
 [RaiDiagram API.md](https://github.com/Burkhardt/RaiDiagram/blob/main/API.md).
 
-Latest release notes: [RaidSeeder_RELEASE_NOTES_4.5.4.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.4.md).
+Latest release notes: [RaidSeeder_RELEASE_NOTES_4.5.5.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.5.md).
 
 Governing request: [CR037_AIA_to_RAIkeep_RaidSeeder_Diagram_Artifact_Management.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/CR037_AIA_to_RAIkeep_RaidSeeder_Diagram_Artifact_Management.md).
 

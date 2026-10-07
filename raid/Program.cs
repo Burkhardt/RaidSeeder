@@ -8,7 +8,7 @@ namespace RaidSeeder;
 public static class Program
 {
 	private const int HelpOptionWidth = 25;
-	private static readonly string[] Commands = ["import", "export", "refresh", "validate"];
+	private static readonly string[] Commands = ["import", "import-xmi", "import-otw", "export", "refresh", "validate"];
 	private static readonly string[] GlobalSwitches =
 	[
 		"-h", "--help", "-v", "--version", "-n", "--nologo", "-d", "--debug"
@@ -49,7 +49,8 @@ public static class Program
 
 			return command switch
 			{
-				"import" => Import(args[1..], output),
+				"import" => Import(args[1..], output, error),
+				"import-xmi" or "import-otw" => ImportXmi(args[1..], output),
 				"export" => Export(args[1..], output),
 				"refresh" => Refresh(args[1..], output),
 				"validate" => Validate(args[1..], output),
@@ -58,12 +59,12 @@ public static class Program
 		}
 		catch (Exception exception)
 		{
-			error.WriteLine($"raid: {exception.Message}");
+			error.WriteLine($"raid: {(exception is UnsupportedDiagramConstructException or DiagramRenderingException ? "[RAID201] " : string.Empty)}{exception.Message}");
 			return 1;
 		}
 	}
 
-	private static int Import(string[] args, TextWriter output)
+	private static int Import(string[] args, TextWriter output, TextWriter error)
 	{
 		var allowedValues = new HashSet<string>(StringComparer.Ordinal)
 		{
@@ -82,7 +83,31 @@ public static class Program
 		var importer = new PlantUmlModelImporter();
 		if (!importer.CanImport(source.FullName))
 			throw new ArgumentException($"Unsupported import source '{source.FullName}'. Expected a .puml file.");
-		var manifest = importer.Import(new StringReader(source.ReadAllText())).Manifest;
+		var imported = importer.Import(new StringReader(source.ReadAllText()), source.FullName);
+		foreach (var diagnostic in imported.Diagnostics) error.WriteLine(diagnostic);
+		var manifest = imported.Manifest;
+		return WriteImported(args, output, manifest, source.Path);
+	}
+
+	private static int ImportXmi(string[] args, TextWriter output)
+	{
+		var allowed = ManagedValueOptions().Concat(["--out", "--name", "--diagram"]).ToHashSet(StringComparer.Ordinal);
+		var positionals = EnsureKnown(args, allowed, GlobalSwitches.Concat(["--list-diagrams"]));
+		if (positionals.Count != 1) throw new ArgumentException("import-xmi requires exactly one .xmi file.");
+		var file = new TextFile(positionals[0]);
+		var importer = new XmiDeploymentImporter();
+		if (Has(args, "--list-diagrams"))
+		{
+			foreach (var info in importer.ListDiagrams(file.FullName))
+				output.WriteLine($"{info.Id}\t{info.Type}\t{info.Name}");
+			return 0;
+		}
+		var manifest = importer.Import(file.FullName, Value(args, "--diagram")).Manifest;
+		return WriteImported(args, output, manifest, file.Path);
+	}
+
+	private static int WriteImported(string[] args, TextWriter output, DiagramManifest manifest, RaiPath sourcePath)
+	{
 		var itemId = Value(args, "--name") ?? manifest.Diagram.Id;
 		var nameExt = Value(args, "--name-ext") ?? string.Empty;
 		var number = Number(args);
@@ -96,6 +121,8 @@ public static class Program
 		var appName = Value(args, "-a", "--app");
 		EnsureDestinationChoice(outName, rootName, appName);
 		var manager = new DiagramArtifactManager();
+		// Derive every artifact before a managed manifest or destination can be written.
+		_ = manager.Derive(manifest);
 		if (!string.IsNullOrWhiteSpace(rootName) || !string.IsNullOrWhiteSpace(appName))
 		{
 			var address = ResolveAddress(args);
@@ -114,7 +141,7 @@ public static class Program
 			return 0;
 		}
 
-		var destination = !string.IsNullOrWhiteSpace(outName) ? new RaiPath(outName) : source.Path;
+		var destination = !string.IsNullOrWhiteSpace(outName) ? new RaiPath(outName) : sourcePath;
 		foreach (var file in manager.Write(destination, diagramId, manifest))
 			output.WriteLine(file.FullName);
 		return 0;
@@ -191,7 +218,7 @@ public static class Program
 		if (file.Ext.Equals("raid", StringComparison.OrdinalIgnoreCase))
 			RaidJson5.Parse(contents);
 		else if (file.Ext.Equals("puml", StringComparison.OrdinalIgnoreCase))
-			new PlantUmlModelImporter().Import(new StringReader(contents));
+			new PlantUmlModelImporter().Import(new StringReader(contents), file.FullName);
 		else if (file.Ext.Equals("svg", StringComparison.OrdinalIgnoreCase))
 			AimSvg.Validate(contents, contents.Contains("aim-node=", StringComparison.Ordinal)
 				? AimSvgProfile.Hydratable
@@ -411,7 +438,7 @@ public static class Program
 
 	private static string DiagramId(string itemId, int number, string nameExt)
 	{
-		var stem = number == ItemTreeTextFile.NoItemNumber ? itemId : $"{itemId}_{number:D2}";
+		var stem = number == ItemTreeTextFile.NoItemNumber ? itemId : $"{itemId}_{number:D3}";
 		return string.IsNullOrWhiteSpace(nameExt) ? stem : $"{stem}_{nameExt}";
 	}
 
@@ -443,6 +470,8 @@ public static class Program
 		}
 		output.WriteLine(HelpLine("Commands", Icons.Info, "import, export, refresh, validate"));
 		output.WriteLine("  raid import --puml <file> [--out <dir> | ((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name>]");
+		output.WriteLine("  raid import-xmi <file.xmi> [--diagram <id|name>] [--list-diagrams] [--out <dir>] [--name <ItemId>]");
+		output.WriteLine("  raid import-otw is an alias for import-xmi.");
 		output.WriteLine("  raid export <ItemId> ((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name> --format <raid|puml|svg|all> [--out <dir>]");
 		output.WriteLine("  raid refresh <ItemId> ((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name>");
 		output.WriteLine("  raid validate <diagram.raid|diagram.puml|diagram.svg>");
@@ -469,6 +498,7 @@ public static class Program
 		output.WriteLine(command switch
 		{
 			"import" => "Usage: raid import --puml <file> [--name <ItemId>] [--name-ext <value>] [--number <n>] [--out <dir> | managed address]",
+			"import-xmi" or "import-otw" => "Usage: raid import-xmi <file.xmi> [--diagram <id|name>] [--list-diagrams] [--name <ItemId>] [--out <dir> | managed address]",
 			"export" => "Usage: raid export <ItemId> <managed address> [--name-ext <value>] [--number <n>] --format <raid|puml|svg|all> [--svg-profile <hydratable|plain>] [--out <dir>]",
 			"refresh" => "Usage: raid refresh <ItemId> <managed address> [--name-ext <value>] [--number <n>] [--svg-profile <hydratable|plain>]",
 			_ => "Usage: raid validate <diagram.raid|diagram.puml|diagram.svg>"
