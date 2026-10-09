@@ -1,4 +1,4 @@
-# RaidSeeder command reference 4.5.6
+# RaidSeeder command reference 4.5.7
 
 The four verbs are reserved and command-first. A misplaced verb is rejected
 before artifact access with exit code `2` and an exact corrected invocation.
@@ -96,7 +96,7 @@ metadata.
 <summary>Global options and package identity</summary>
 
 `-h|--help`, `-v|--version`, `-n|--nologo`, and `-d|--debug` follow the shared
-RAIkeep CLI vocabulary. `raid --version` prints `raid v4.5.6`. Install the
+RAIkeep CLI vocabulary. `raid --version` prints `raid v4.5.7`. Install the
 `RaidSeeder` package and invoke the `raid` command.
 
 </details>

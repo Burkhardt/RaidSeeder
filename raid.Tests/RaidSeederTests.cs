@@ -5,7 +5,7 @@ namespace RaidSeeder.Tests;
 
 public sealed class RaidSeederTests : IDisposable
 {
-	private readonly RaiPath root = Os.TempDir / "RAIkeep" / "raid-seeder-tests";
+	private readonly RaiPath root = Os.TempDir / "RAIkeep" / "raid-seeder-tests" / Guid.NewGuid().ToString("N");
 
 	public RaidSeederTests()
 	{
@@ -30,7 +30,7 @@ public sealed class RaidSeederTests : IDisposable
 		var output = new StringWriter();
 		var exitCode = Program.Run(["--version"], output, new StringWriter());
 		Assert.Equal(0, exitCode);
-		Assert.Equal("raid v4.5.6", output.ToString().Trim());
+		Assert.Equal("raid v4.5.7", output.ToString().Trim());
 	}
 
 	[Fact]
@@ -62,7 +62,7 @@ public sealed class RaidSeederTests : IDisposable
 		var exitCode = Program.Run(args, output, error);
 
 		Assert.Equal(0, exitCode);
-		Assert.Equal("raid v4.5.6", output.ToString().Trim());
+		Assert.Equal("raid v4.5.7", output.ToString().Trim());
 		Assert.Empty(error.ToString());
 	}
 
