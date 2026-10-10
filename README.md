@@ -6,23 +6,52 @@ Coordinated 4.5.8 release; public behavior is aligned with the synchronized plat
 
 Release notes: [RaidSeeder_RELEASE_NOTES_4.5.8.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.8.md).
 
-## 4.5.7
+<details>
+<summary><b>Previous Versions</b></summary>
+
+### 4.5.7
 
 Coordinated 4.5.7 release; public behavior is aligned with the synchronized platform.
 
 Release notes: [RaidSeeder_RELEASE_NOTES_4.5.7.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.7.md).
 
-## 4.5.6
+### 4.5.6
 
 Coordinated 4.5.6 release; public behavior is aligned with the synchronized platform.
 
 Release notes: [RaidSeeder_RELEASE_NOTES_4.5.6.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.6.md).
 
-## 4.5.5
+### 4.5.5
 
 Coordinated 4.5.5 release; public behavior is aligned with the synchronized platform.
 
 Release notes: [RaidSeeder_RELEASE_NOTES_4.5.5.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.5.md).
+
+### 4.5.4
+
+Coordinated 4.5.4 release; public behavior is aligned with the synchronized platform.
+
+Release notes: [RaidSeeder_RELEASE_NOTES_4.5.4.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.4.md).
+
+### 4.5.3
+
+Coordinated 4.5.3 release; public behavior is aligned with the synchronized platform.
+
+Release notes: [RaidSeeder_RELEASE_NOTES_4.5.3.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.3.md).
+
+### 4.5.2
+
+Coordinated 4.5.2 release; public behavior is aligned with the synchronized platform.
+
+Release notes: [RaidSeeder_RELEASE_NOTES_4.5.2.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.2.md).
+
+### 4.5.0
+
+Coordinated 4.5.0 dependency alignment; raid reports version 4.5.0.
+
+Release notes: [RaidSeeder_RELEASE_NOTES_4.5.0.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.0.md).
+
+</details>
 
 ### Object and deployment import (CR052)
 
@@ -115,8 +144,37 @@ prints the corrected `raid refresh -n ...` invocation. `-v`/`--version` takes
 immediate precedence wherever it appears.
 
 ```bash
-dotnet tool install --global RaidSeeder --version 4.5.8
-raid --version
+## Installation
+
+### 1. User Global Tool Install
+
+```bash
+dotnet tool install --global RaidSeeder
+```
+
+To update:
+
+```bash
+dotnet tool update --global RaidSeeder
+```
+
+*(Requires `~/.dotnet/tools` in your `$PATH`)*
+
+### 2. Direct Install to `/usr/local/bin` (Recommended for macOS & Linux)
+
+Install directly to `/usr/local/bin` so no `$PATH` modification is needed:
+
+```bash
+sudo dotnet tool install RaidSeeder --tool-path /usr/local/bin
+```
+
+To update:
+
+```bash
+sudo dotnet tool update RaidSeeder --tool-path /usr/local/bin
+```
+
+> **Note:** `sudo` is only required during installation and updates to write to `/usr/local/bin`. Running the installed CLI command never requires `sudo` or elevated privileges.
 ```
 
 The predecessor package was named `RaidCli`. Because both packages install the
