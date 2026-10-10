@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<Title>RaidSeeder</Title>
 		<PackageId>RaidSeeder</PackageId>
-		<Version>4.5.7</Version>
+		<Version>4.5.8</Version>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<FileVersion>$(Version)</FileVersion>
 		<InformationalVersion>$(Version)</InformationalVersion>
@@ -32,7 +32,7 @@
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == '' and '$(ContinuousIntegrationBuild)' == 'true'">false</UseLocalRAIkeepSources>
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == '' and '$(RaiDiagramProjectPath)' != ''">true</UseLocalRAIkeepSources>
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == ''">false</UseLocalRAIkeepSources>
-		<RaiDiagramPackageVersion Condition="'$(RaiDiagramPackageVersion)' == ''">4.5.7</RaiDiagramPackageVersion>
+		<RaiDiagramPackageVersion Condition="'$(RaiDiagramPackageVersion)' == ''">4.5.8</RaiDiagramPackageVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
