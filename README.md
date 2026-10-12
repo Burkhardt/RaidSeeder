@@ -1,55 +1,15 @@
 # `raid` — RAI Diagram Seeder & Manager
 
-## 4.5.8
+## Latest Version 4.5.8
 
-Coordinated 4.5.8 release; public behavior is aligned with the synchronized platform.
+PlantUML diagram ingestion, deterministic SVG output, and bounded deployment import.
 
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.8.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.8.md).
+Latest release notes: [RaidSeeder_RELEASE_NOTES_4.5.8.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.8.md).
 
 <details>
 <summary><b>Previous Versions</b></summary>
 
-### 4.5.7
-
-Coordinated 4.5.7 release; public behavior is aligned with the synchronized platform.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.7.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.7.md).
-
-### 4.5.6
-
-Coordinated 4.5.6 release; public behavior is aligned with the synchronized platform.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.6.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.6.md).
-
-### 4.5.5
-
-Coordinated 4.5.5 release; public behavior is aligned with the synchronized platform.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.5.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.5.md).
-
-### 4.5.4
-
-Coordinated 4.5.4 release; public behavior is aligned with the synchronized platform.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.4.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.4.md).
-
-### 4.5.3
-
-Coordinated 4.5.3 release; public behavior is aligned with the synchronized platform.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.3.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.3.md).
-
-### 4.5.2
-
-Coordinated 4.5.2 release; public behavior is aligned with the synchronized platform.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.2.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.2.md).
-
-### 4.5.0
-
-Coordinated 4.5.0 dependency alignment; raid reports version 4.5.0.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.0.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.0.md).
+Earlier coordinated releases are recorded in the [RAIkeep release-note archive](https://github.com/Burkhardt/RAIkeep/tree/main/doc).
 
 </details>
 
@@ -87,42 +47,6 @@ and `raid import-xmi file.xmi --diagram <id-or-name> --out ./artifacts --name Se
 `import-otw` is an alias. It preserves drawing bounds and authored paths, without
 claiming complete legacy visual fidelity or support for other XMI diagram families.
 
-## 4.5.4
-
-Coordinated 4.5.4 release; public behavior is aligned with the synchronized platform.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.4.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.4.md).
-
-## 4.5.3
-
-Coordinated 4.5.3 release; public behavior is aligned with the synchronized platform.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.3.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.3.md).
-
-## 4.5.2
-
-Coordinated 4.5.2 release; public behavior is aligned with the synchronized platform.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.2.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.2.md).
-
-## 4.5.0
-
-Coordinated 4.5.0 dependency alignment; raid reports version 4.5.0.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.5.0.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.0.md).
-
-## 4.4.8
-
-Coordinated 4.4.8 dependency alignment; raid reports version 4.4.8.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.4.8.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.4.8.md).
-
-## 4.4.6
-
-Participates in the synchronized 4.4.6 dependency line; reports `raid v4.4.6`. Diagram artifact behavior is unchanged.
-
-Release notes: [RaidSeeder_RELEASE_NOTES_4.4.6.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.4.6.md).
-
 
 `RaidSeeder` installs the `raid` command. It manages the co-located diagram
 artifact set in an ImageTree: authoritative `.raid`, derived `.puml`, and
@@ -143,7 +67,6 @@ The command grammar is verb-first. A reserved verb placed after a modifier
 prints the corrected `raid refresh -n ...` invocation. `-v`/`--version` takes
 immediate precedence wherever it appears.
 
-```bash
 ## Installation
 
 ### 1. User Global Tool Install
@@ -175,7 +98,6 @@ sudo dotnet tool update RaidSeeder --tool-path /usr/local/bin
 ```
 
 > **Note:** `sudo` is only required during installation and updates to write to `/usr/local/bin`. Running the installed CLI command never requires `sudo` or elevated privileges.
-```
 
 The predecessor package was named `RaidCli`. Because both packages install the
 same command, migrate explicitly:
@@ -255,7 +177,6 @@ Foldable command reference: [API.md](https://github.com/Burkhardt/RaidSeeder/blo
 Foldable API documentation for the underlying model and artifact library is in
 [RaiDiagram API.md](https://github.com/Burkhardt/RaiDiagram/blob/main/API.md).
 
-Latest release notes: [RaidSeeder_RELEASE_NOTES_4.5.8.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.8.md).
 
 Governing request: [CR037_AIA_to_RAIkeep_RaidSeeder_Diagram_Artifact_Management.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/CR037_AIA_to_RAIkeep_RaidSeeder_Diagram_Artifact_Management.md).
 
