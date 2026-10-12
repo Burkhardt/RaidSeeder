@@ -4,14 +4,11 @@
 
 PlantUML diagram ingestion, deterministic SVG output, and bounded deployment import.
 
-Latest release notes: [RaidSeeder_RELEASE_NOTES_4.5.8.md](https://github.com/Burkhardt/RAIkeep/blob/main/doc/RaidSeeder_RELEASE_NOTES_4.5.8.md).
+Latest release notes: [RaidSeeder 4.5.8 release notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md#458).
 
-<details>
-<summary><b>Previous Versions</b></summary>
+## Previous Versions
 
-Earlier coordinated releases are recorded in the [RAIkeep release-note archive](https://github.com/Burkhardt/RAIkeep/tree/main/doc).
-
-</details>
+For release notes and changelogs of earlier releases, see the [RaidSeeder 4.x Release Notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md).
 
 ### Object and deployment import (CR052)
 
@@ -69,7 +66,7 @@ immediate precedence wherever it appears.
 
 ## Installation
 
-### 1. User Global Tool Install
+### .NET global tool
 
 ```bash
 dotnet tool install --global RaidSeeder
@@ -81,9 +78,9 @@ To update:
 dotnet tool update --global RaidSeeder
 ```
 
-*(Requires `~/.dotnet/tools` in your `$PATH`)*
+*(Requires `~/.dotnet/tools` on your PATH.)*
 
-### 2. Direct Install to `/usr/local/bin` (Recommended for macOS & Linux)
+### .NET tool in `/usr/local/bin` (Recommended for macOS & Linux)
 
 Install directly to `/usr/local/bin` so no `$PATH` modification is needed:
 
