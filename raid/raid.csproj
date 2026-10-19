@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<Title>RaidSeeder</Title>
 		<PackageId>RaidSeeder</PackageId>
-		<Version>4.5.10</Version>
+		<Version>4.5.11</Version>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<FileVersion>$(Version)</FileVersion>
 		<InformationalVersion>$(Version)</InformationalVersion>
@@ -26,13 +26,13 @@
 		<RepositoryType>git</RepositoryType>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<PackageTags>raid;diagram;PlantUML;SVG;CLI;tool</PackageTags>
-		<PackageReleaseNotes>CR052: object and deployment import, source-located diagnostics, preflight before writes, and bounded legacy deployment XMI commands.</PackageReleaseNotes>
+		<PackageReleaseNotes>CR064: import edge stereotypes with an explicit Domain context and preserve them in .raid and generated artifacts.</PackageReleaseNotes>
 		<RAIkeepRoot Condition="'$(RAIkeepRoot)' == '' and Exists('../../RaiDiagram/RaiDiagram.csproj')">../..</RAIkeepRoot>
 		<RaiDiagramProjectPath Condition="'$(RAIkeepRoot)' != '' and Exists('$(RAIkeepRoot)/RaiDiagram/RaiDiagram.csproj')">$(RAIkeepRoot)/RaiDiagram/RaiDiagram.csproj</RaiDiagramProjectPath>
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == '' and '$(ContinuousIntegrationBuild)' == 'true'">false</UseLocalRAIkeepSources>
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == '' and '$(RaiDiagramProjectPath)' != ''">true</UseLocalRAIkeepSources>
 		<UseLocalRAIkeepSources Condition="'$(UseLocalRAIkeepSources)' == ''">false</UseLocalRAIkeepSources>
-		<RaiDiagramPackageVersion Condition="'$(RaiDiagramPackageVersion)' == ''">4.5.10</RaiDiagramPackageVersion>
+		<RaiDiagramPackageVersion Condition="'$(RaiDiagramPackageVersion)' == ''">4.5.11</RaiDiagramPackageVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

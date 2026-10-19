@@ -1,10 +1,11 @@
 # `raid` — RAI Diagram Seeder & Manager
 
-## Latest Version 4.5.10
+## Latest Version 4.5.11
 
-PlantUML diagram ingestion, deterministic SVG output, and bounded deployment import.
+PlantUML diagram ingestion with typed edge stereotypes, deterministic SVG
+output, and bounded deployment import.
 
-Latest release notes: [RaidSeeder 4.5.10 release notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md#4510).
+Latest release notes: [RaidSeeder 4.5.11 release notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md#4511).
 
 ## Previous Versions
 
@@ -24,7 +25,7 @@ customer --> order : places
 ```
 
 ```bash
-raid import --puml Orders.puml --out ./artifacts --name Orders --name-ext OD
+raid import --puml Orders.puml --out ./artifacts --domain Examples --name Orders --name-ext OD
 ```
 
 ObjectProperties preserves ordered text slot values in schema 1.1 and renders
@@ -52,6 +53,12 @@ derived `.svg`.
 RaidSeeder preserves the authoritative semantic diagram manifest and produces
 deterministic textual and visual projections without turning the generated
 `.puml` or `.svg` files into competing sources of truth.
+
+With CR064, `raid import` stores edge stereotypes as the separate
+`DiagramRelationship.Stereotype` field, preserving their source spelling.
+For an unmanaged `--out` import, specify `--domain <Domain>`; managed imports
+use `--tenant` as the Domain. The generated PlantUML and SVG expose the same
+stereotype while `.raid` remains the authoritative source.
 
 **CLI tools:** use `raid` to import, export, refresh, and validate diagram
 artifact families. Use [`amafu init`](https://github.com/Burkhardt/Amafu) to
@@ -101,14 +108,14 @@ same command, migrate explicitly:
 
 ```bash
 dotnet tool uninstall --global RaidCli
-dotnet tool install --global RaidSeeder --version 4.5.10
+dotnet tool install --global RaidSeeder --version 4.5.11
 ```
 
 ## Commands
 
 ```bash
 # Import to an explicit flat directory.
-raid import --puml ChangeRequestWorkflow.puml --out artifacts --name Workflow
+raid import --puml ChangeRequestWorkflow.puml --out artifacts --domain Examples --name Workflow
 
 # Import to OneDrive/AIA/Image/nomsa using ItemIdTree8x2.
 raid import --puml Workflow.puml \
@@ -139,6 +146,11 @@ root and appends `Image`. `-t|--tenant` selects the subscriber directory;
 `ItemIdTree8x2`. `--number` and `--name-ext` remain separate from `ItemId`, so
 `--name Workflow --number 1 --name-ext AD` produces `Workflow_01_AD.*` while
 the buckets remain derived from `Workflow`.
+
+PlantUML imports store edge stereotypes as semantic `stereotype` values in
+`.raid`, preserving their source spelling. Unmanaged imports require
+`--domain <Domain>`; managed imports use `--tenant` as their Domain. The Domain
+is recorded under `model.domain` and is not inferred from the output path.
 
 If cloud-backed addressing is requested before the shared configuration exists,
 `raid` reports:

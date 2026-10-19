@@ -68,7 +68,7 @@ public static class Program
 	{
 		var allowedValues = new HashSet<string>(StringComparer.Ordinal)
 		{
-			"--puml", "--out", "--name", "--name-ext", "--number",
+			"--puml", "--out", "--name", "--name-ext", "--number", "--domain",
 			"-c", "--cloud", "-r", "--root", "-a", "--app",
 			"-t", "--tenant", "--subscriber", "-p", "--pathconv"
 		};
@@ -86,7 +86,7 @@ public static class Program
 		var imported = importer.Import(new StringReader(source.ReadAllText()), source.FullName);
 		foreach (var diagnostic in imported.Diagnostics) error.WriteLine(diagnostic);
 		var manifest = imported.Manifest;
-		return WriteImported(args, output, manifest, source.Path);
+		return WriteImported(args, output, manifest, source.Path, requireDomainContext: true);
 	}
 
 	private static int ImportXmi(string[] args, TextWriter output)
@@ -106,7 +106,7 @@ public static class Program
 		return WriteImported(args, output, manifest, file.Path);
 	}
 
-	private static int WriteImported(string[] args, TextWriter output, DiagramManifest manifest, RaiPath sourcePath)
+	private static int WriteImported(string[] args, TextWriter output, DiagramManifest manifest, RaiPath sourcePath, bool requireDomainContext = false)
 	{
 		var itemId = Value(args, "--name") ?? manifest.Diagram.Id;
 		var nameExt = Value(args, "--name-ext") ?? string.Empty;
@@ -121,11 +121,18 @@ public static class Program
 		var appName = Value(args, "-a", "--app");
 		EnsureDestinationChoice(outName, rootName, appName);
 		var manager = new DiagramArtifactManager();
-		// Derive every artifact before a managed manifest or destination can be written.
-		_ = manager.Derive(manifest);
 		if (!string.IsNullOrWhiteSpace(rootName) || !string.IsNullOrWhiteSpace(appName))
 		{
 			var address = ResolveAddress(args);
+			if (requireDomainContext)
+			{
+				var requestedDomain = Value(args, "--domain");
+				if (requestedDomain is not null && !string.Equals(requestedDomain, address.Tenant, StringComparison.Ordinal))
+					throw new ArgumentException("--domain must match the managed --tenant Domain.");
+				manifest.Model.Domain = address.Tenant;
+			}
+			// Derive every artifact before a managed manifest or destination can be written.
+			_ = manager.Derive(manifest);
 			var artifacts = new DiagramArtifactSet(
 				address.ImageTreeRoot,
 				address.Tenant,
@@ -141,6 +148,11 @@ public static class Program
 			return 0;
 		}
 
+		if (requireDomainContext)
+			manifest.Model.Domain = Value(args, "--domain")
+				?? throw new ArgumentException("Unmanaged PlantUML import requires --domain <Domain>.");
+		// Derive every artifact before a destination can be written.
+		_ = manager.Derive(manifest);
 		var destination = !string.IsNullOrWhiteSpace(outName) ? new RaiPath(outName) : sourcePath;
 		foreach (var file in manager.Write(destination, diagramId, manifest))
 			output.WriteLine(file.FullName);
@@ -469,7 +481,7 @@ public static class Program
 			return;
 		}
 		output.WriteLine(HelpLine("Commands", Icons.Info, "import, export, refresh, validate"));
-		output.WriteLine("  raid import --puml <file> [--out <dir> | ((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name>]");
+		output.WriteLine("  raid import --puml <file> (--domain <Domain> [--out <dir>] | ((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name>)");
 		output.WriteLine("  raid import-xmi <file.xmi> [--diagram <id|name>] [--list-diagrams] [--out <dir>] [--name <ItemId>]");
 		output.WriteLine("  raid import-otw is an alias for import-xmi.");
 		output.WriteLine("  raid export <ItemId> ((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name> --format <raid|puml|svg|all> [--out <dir>]");
@@ -483,21 +495,22 @@ public static class Program
 		output.WriteLine(HelpLine("-r, --root", Icons.Folder, "exact ImageTree root; alternative to -a/--app"));
 		output.WriteLine(HelpLine("-a, --app", Icons.Folder, "application root; Image is appended"));
 		output.WriteLine(HelpLine("-t, --tenant", Icons.Folder, "subscriber/tenant; --subscriber is an alias"));
+		output.WriteLine(HelpLine("--domain", Icons.Info, "Domain for unmanaged PlantUML imports; managed imports use --tenant"));
 		output.WriteLine(HelpLine("-p, --pathconv", Icons.Number3, "1 CanonicalByName, 2 ItemIdTree3x3, 3 ItemIdTree8x2 (default), 4 Flat"));
 		output.WriteLine(HelpLine("--name-ext", Icons.File, "optional NameExt kept separate from ItemId"));
 		output.WriteLine(HelpLine("--number", Icons.File, "optional artifact number before NameExt"));
 		output.WriteLine(HelpLine("--svg-profile", Icons.Info, "hydratable (default) or plain"));
 		output.WriteLine(HelpLine("Package", Icons.Info, "install RaidSeeder; invoke it with raid"));
 		output.WriteLine("Examples:");
-		output.WriteLine("  raid import --puml Workflow.puml --out artifacts --name Workflow");
-		output.WriteLine("  raid refresh Workflow -c OneDrive --app AIA -t nomsa --name-ext AD");
+		output.WriteLine("  raid import --puml Workflow.puml --out artifacts --domain Examples --name Workflow");
+		output.WriteLine("  raid refresh Workflow -c OneDrive --app SampleApp -t Customer --name-ext AD");
 	}
 
 	private static void WriteCommandHelp(TextWriter output, string command)
 	{
 		output.WriteLine(command switch
 		{
-			"import" => "Usage: raid import --puml <file> [--name <ItemId>] [--name-ext <value>] [--number <n>] [--out <dir> | managed address]",
+			"import" => "Usage: raid import --puml <file> [--name <ItemId>] [--name-ext <value>] [--number <n>] (--domain <Domain> [--out <dir>] | managed address)",
 			"import-xmi" or "import-otw" => "Usage: raid import-xmi <file.xmi> [--diagram <id|name>] [--list-diagrams] [--name <ItemId>] [--out <dir> | managed address]",
 			"export" => "Usage: raid export <ItemId> <managed address> [--name-ext <value>] [--number <n>] --format <raid|puml|svg|all> [--svg-profile <hydratable|plain>] [--out <dir>]",
 			"refresh" => "Usage: raid refresh <ItemId> <managed address> [--name-ext <value>] [--number <n>] [--svg-profile <hydratable|plain>]",

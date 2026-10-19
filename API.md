@@ -1,4 +1,4 @@
-# RaidSeeder command reference 4.5.10
+# RaidSeeder command reference 4.5.11
 
 The four verbs are reserved and command-first. A misplaced verb is rejected
 before artifact access with exit code `2` and an exact corrected invocation.
@@ -10,13 +10,15 @@ before artifact access with exit code `2` and an exact corrected invocation.
 ```text
 raid import --puml <diagram.puml>
   [--name <ItemId>] [--number <n>] [--name-ext <value>]
-  [--out <directory> | <managed-address>]
+  [--domain <Domain> --out <directory> | <managed-address>]
 ```
 
 Imports supported PlantUML through `IModelImporter`. An explicit `--out`
 receives a flat `.raid`/`.puml`/`.svg` set. A managed address writes the same
 stem through `DiagramArtifactSet` and the chosen ItemTree convention. `--out`
 is mutually exclusive with `--root` and `--app`.
+Unmanaged imports require `--domain`; managed imports use `--tenant` as the
+Domain. Edge stereotypes are preserved in the `.raid` manifest.
 
 </details>
 
@@ -96,7 +98,7 @@ metadata.
 <summary>Global options and package identity</summary>
 
 `-h|--help`, `-v|--version`, `-n|--nologo`, and `-d|--debug` follow the shared
-RAIkeep CLI vocabulary. `raid --version` prints `raid v4.5.10`. Install the
+RAIkeep CLI vocabulary. `raid --version` prints `raid v4.5.11`. Install the
 `RaidSeeder` package and invoke the `raid` command.
 
 </details>
