@@ -1,11 +1,11 @@
 # `raid` — RAI Diagram Seeder & Manager
 
-## Latest Version 4.5.11
+## Latest Version 4.5.12
 
 PlantUML diagram ingestion with typed edge stereotypes, deterministic SVG
 output, and bounded deployment import.
 
-Latest release notes: [RaidSeeder 4.5.11 release notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md#4511).
+Latest release notes: [RaidSeeder 4.5.12 release notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md#4512).
 
 ## Previous Versions
 
@@ -108,7 +108,7 @@ same command, migrate explicitly:
 
 ```bash
 dotnet tool uninstall --global RaidCli
-dotnet tool install --global RaidSeeder --version 4.5.11
+dotnet tool install --global RaidSeeder --version 4.5.12
 ```
 
 ## Commands
