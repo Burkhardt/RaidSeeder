@@ -57,7 +57,7 @@ jobs:
             --configuration Release \
             --no-build \
             /p:UseLocalRAIkeepSources=false \
-            -- import --puml raid.Tests/Fixtures/ChangeRequestWorkflow.puml --out artifacts/hydration
+            -- import --puml raid.Tests/Fixtures/ChangeRequestWorkflow.puml --out artifacts/hydration --domain Examples
           node scripts/verify-raid-canvas-hydration.mjs artifacts/hydration/ChangeRequestWorkflow.svg
 
       - name: Pack
