@@ -7,7 +7,6 @@ namespace RaidSeeder;
 
 public static class Program
 {
-	private const int HelpOptionWidth = 25;
 	private static readonly string[] Commands = ["import", "import-xmi", "import-otw", "export", "refresh", "validate"];
 	private static readonly string[] GlobalSwitches =
 	[
@@ -469,93 +468,71 @@ public static class Program
 
 	private static void WriteHelp(TextWriter output, bool noLogo, string? command = null)
 	{
+		var color = CliHelpStyle.UseColor(output);
 		if (!noLogo)
-		{
-			output.WriteLine($"{Icons.Banner} ─────────────────────────────");
-			output.WriteLine($"{Icons.Info} RAI Diagram Seeder & Manager");
-			output.WriteLine($"{Icons.Banner} ─────────────────────────────");
-		}
-		if (command is not null)
-		{
-			WriteCommandHelp(output, command);
-			return;
-		}
-		output.WriteLine(HelpLine("Commands", Icons.Info, "import, export, refresh, validate"));
-		output.WriteLine("  raid import --puml <file> (--domain <Domain> [--out <dir>] | ((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name>)");
-		output.WriteLine("  raid import-xmi <file.xmi> [--diagram <id|name>] [--list-diagrams] [--out <dir>] [--name <ItemId>]");
-		output.WriteLine("  raid import-otw is an alias for import-xmi.");
-		output.WriteLine("  raid export <ItemId> ((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name> --format <raid|puml|svg|all> [--out <dir>]");
-		output.WriteLine("  raid refresh <ItemId> ((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name>");
-		output.WriteLine("  raid validate <diagram.raid|diagram.puml|diagram.svg>");
-		output.WriteLine(HelpLine("-h, --help", Icons.Help, "print command and option help"));
-		output.WriteLine(HelpLine("-v, --version", Icons.Info, "print raid and synchronized suite version"));
-		output.WriteLine(HelpLine("-n, --nologo", Icons.NoBanner, "do not display the banner"));
-		output.WriteLine(HelpLine("-d, --debug", Icons.Runner, "enable diagnostic output"));
-		output.WriteLine(HelpLine("-c, --cloud", DefaultCloudIcon(), CloudDescription()));
-		output.WriteLine(HelpLine("-r, --root", Icons.Folder, "exact ImageTree root; alternative to -a/--app"));
-		output.WriteLine(HelpLine("-a, --app", Icons.Folder, "application root; Image is appended"));
-		output.WriteLine(HelpLine("-t, --tenant", Icons.Folder, "subscriber/tenant; --subscriber is an alias"));
-		output.WriteLine(HelpLine("--domain", Icons.Info, "Domain for unmanaged PlantUML imports; managed imports use --tenant"));
-		output.WriteLine(HelpLine("-p, --pathconv", Icons.Number3, "1 CanonicalByName, 2 ItemIdTree3x3, 3 ItemIdTree8x2 (default), 4 Flat"));
-		output.WriteLine(HelpLine("--name-ext", Icons.File, "optional NameExt kept separate from ItemId"));
-		output.WriteLine(HelpLine("--number", Icons.File, "optional artifact number before NameExt"));
-		output.WriteLine(HelpLine("--svg-profile", Icons.Info, "hydratable (default) or plain"));
-		output.WriteLine(HelpLine("Package", Icons.Info, "install RaidSeeder; invoke it with raid"));
-		output.WriteLine("Examples:");
-		output.WriteLine("  raid import --puml Workflow.puml --out artifacts --domain Examples --name Workflow");
-		output.WriteLine("  raid refresh Workflow -c OneDrive --app SampleApp -t Customer --name-ext AD");
+			foreach (var line in CliHelpStyle.Banner($"{Icons.Info} RAI Diagram Seeder & Manager (raid v{Version()})", color))
+				output.WriteLine(line);
+		if (command is not null) { WriteCommandHelp(output, command); return; }
+		var providers = HelpCloudProviders();
+		CliHelpStyle.Row[] rows =
+		[
+			new("Commands:", Icons.Info, "import, export, refresh, validate; import-xmi (import-otw)"),
+			new("  raid import --puml <file> (--domain <Domain> [--out <dir>]|((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name>)", "", ""),
+			new("  raid import-xmi <file.xmi> [--diagram <id|name>] [--list-diagrams] [--out <dir>] [--name <ItemId>]", "", ""),
+			new("  raid import-otw is an alias for import-xmi.", "", ""),
+			new("  raid export <ItemId> ((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name> --format <raid|puml|svg|all> [--out <dir>]", "", ""),
+			new("  raid refresh <ItemId> ((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name>", "", ""),
+			new("  raid validate <diagram.raid|diagram.puml|diagram.svg>", "", ""),
+			new("Options:", "", ""),
+			new("-h, --help", Icons.Help, "print command and option help"),
+			new("-v, --version", Icons.Info, "print raid and synchronized suite version"),
+			new("-n, --nologo", Icons.NoBanner, "do not display the banner"),
+			new("-d, --debug", Icons.Runner, "enable diagnostic output"),
+			new("-c, --cloud", Icons.Folder, "", providers),
+			new("-r, --root", Icons.Folder, "exact ImageTree root; alternative to -a/--app"),
+			new("-a, --app", Icons.Folder, "application root; Image is appended"),
+			new("-t, --tenant", Icons.Folder, "subscriber/tenant; --subscriber is an alias"),
+			new("--domain", Icons.Info, "Domain for unmanaged PlantUML imports; managed imports use --tenant"),
+			new("-p, --pathconv", Icons.Number3, "1 CanonicalByName, 2 ItemIdTree3x3, 3 ItemIdTree8x2 (default), 4 Flat"),
+			new("--name-ext", Icons.File, "optional NameExt kept separate from ItemId"),
+			new("--number", Icons.File, "optional artifact number before NameExt"),
+			new("--svg-profile", Icons.Info, "hydratable (default) or plain"),
+			new("Package", Icons.Info, "install RaidSeeder; invoke it with raid"),
+			new("Examples:", "", ""),
+			new("  'raid import --puml Workflow.puml --out artifacts --domain Examples --name Workflow'", "", ""),
+			new("  'raid refresh Workflow -c OneDrive --app SampleApp -t Customer --name-ext AD'", "", "")
+		];
+		foreach (var line in CliHelpStyle.Rows(rows, color)) output.WriteLine(line);
 	}
 
 	private static void WriteCommandHelp(TextWriter output, string command)
 	{
-		output.WriteLine(command switch
+		var color = CliHelpStyle.UseColor(output);
+		output.WriteLine(CliHelpStyle.Syntax(command switch
 		{
-			"import" => "Usage: raid import --puml <file> [--name <ItemId>] [--name-ext <value>] [--number <n>] (--domain <Domain> [--out <dir>] | managed address)",
-			"import-xmi" or "import-otw" => "Usage: raid import-xmi <file.xmi> [--diagram <id|name>] [--list-diagrams] [--name <ItemId>] [--out <dir> | managed address]",
+			"import" => "Usage: raid import --puml <file> [--name <ItemId>] [--name-ext <value>] [--number <n>] (--domain <Domain> [--out <dir>]|managed address)",
+			"import-xmi" or "import-otw" => "Usage: raid import-xmi <file.xmi> [--diagram <id|name>] [--list-diagrams] [--name <ItemId>] [--out <dir>|managed address]",
 			"export" => "Usage: raid export <ItemId> <managed address> [--name-ext <value>] [--number <n>] --format <raid|puml|svg|all> [--svg-profile <hydratable|plain>] [--out <dir>]",
 			"refresh" => "Usage: raid refresh <ItemId> <managed address> [--name-ext <value>] [--number <n>] [--svg-profile <hydratable|plain>]",
 			_ => "Usage: raid validate <diagram.raid|diagram.puml|diagram.svg>"
-		});
+		}, "36", color));
 		if (command is "import" or "export" or "refresh")
+			output.WriteLine(CliHelpStyle.FormatRow(new("managed address", Icons.Folder,
+				"((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name> [-c|--cloud <provider>] [-p|--pathconv <1|2|3|4>]"), 15, color));
+		output.WriteLine(CliHelpStyle.Syntax(command switch
 		{
-			output.WriteLine(HelpLine("managed address", Icons.Folder,
-				"((-r|--root) <dir>|(-a|--app) <dir>) (-t|--tenant) <name> [-c|--cloud <provider>] [-p|--pathconv <1|2|3|4>]"));
-		}
-		output.WriteLine(command switch
-		{
-			"import" => "Example: raid import --puml Workflow.puml -c OneDrive --app AIA -t nomsa --name Workflow --name-ext AD",
-			"export" => "Example: raid export Workflow -c OneDrive --app AIA -t nomsa --name-ext AD --format svg --svg-profile plain --out export",
-			"refresh" => "Example: raid refresh Workflow -c OneDrive --app AIA -t nomsa --name-ext AD",
-			_ => "Example: raid validate Workflow_AD.raid"
-		});
+			"import" => "Example: 'raid import --puml Workflow.puml -c OneDrive --app SampleApp -t Customer --name Workflow --name-ext AD'",
+			"export" => "Example: 'raid export Workflow -c OneDrive --app SampleApp -t Customer --name-ext AD --format svg --svg-profile plain --out export'",
+			"refresh" => "Example: 'raid refresh Workflow -c OneDrive --app SampleApp -t Customer --name-ext AD'",
+			_ => "Example: 'raid validate Workflow_AD.raid'"
+		}, "36", color));
 	}
 
-	private static string CloudDescription()
+	private static string[] HelpCloudProviders()
 	{
 		var providers = ConfiguredCloudProviders();
-		if (providers.Length == 0)
-			providers = ["OneDrive", "Dropbox", "GoogleDrive", "ICloudDrive"];
-		return string.Join(", ", providers.Select((provider, index) =>
-			$"{CloudIcon(provider, index + 1)} {provider}{(index == 0 ? " (default)" : string.Empty)}"));
+		return providers.Length == 0 ? ["OneDrive", "Dropbox", "GoogleDrive", "ICloudDrive"] : providers;
 	}
-
-	private static string DefaultCloudIcon()
-	{
-		var providers = ConfiguredCloudProviders();
-		return providers.Length == 0 ? Icons.OneDrive : CloudIcon(providers[0], 1);
-	}
-
-	private static string CloudIcon(string provider, int fallbackNumber) => provider.ToLowerInvariant() switch
-	{
-		"onedrive" => Icons.OneDrive,
-		"dropbox" => Icons.Dropbox,
-		"googledrive" => Icons.GoogleDrive,
-		"iclouddrive" => Icons.ICloudDrive,
-		_ => fallbackNumber is > 0 and <= 9 ? Icons.NumberBoxOutlines[fallbackNumber - 1] : $"({fallbackNumber})"
-	};
-
-	private static string HelpLine(string option, string icon, string description)
-		=> $"{option.PadRight(HelpOptionWidth)}\t{icon}\t{description}{Icons.WidthCompensation}";
 
 	private sealed record ArtifactIdentity(string ItemId, int Number, string NameExt);
 	private sealed record ManagedAddress(RaiPath ImageTreeRoot, string Tenant, PathConventionType Convention);
