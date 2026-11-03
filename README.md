@@ -1,11 +1,11 @@
 # `raid` — RAI Diagram Seeder & Manager
 
-## Latest Version 4.5.16
+## Latest Version 4.5.17
 
 Help now follows the shared CLI theme with aligned columns, syntax colors,
 provider badges, and a versioned heading. Diagram command behavior is unchanged.
 
-Latest release notes: [RaidSeeder 4.5.16 release notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md#4516).
+Latest release notes: [RaidSeeder 4.5.17 release notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md#4517).
 
 ## Previous Versions
 
@@ -108,7 +108,7 @@ same command, migrate explicitly:
 
 ```bash
 dotnet tool uninstall --global RaidCli
-dotnet tool install --global RaidSeeder --version 4.5.16
+dotnet tool install --global RaidSeeder --version 4.5.17
 ```
 
 ## Commands
