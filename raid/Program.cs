@@ -470,7 +470,7 @@ public static class Program
 	{
 		var color = CliHelpStyle.UseColor(output);
 		if (!noLogo)
-			foreach (var line in CliHelpStyle.Banner($"{Icons.Info} RAI Diagram Seeder & Manager (raid v{Version()})", color))
+			foreach (var line in CliHelpStyle.Banner($"{Icons.Info} RAI Diagram Seeder & Manager (raid v{Version()}) on {Environment.MachineName}", color))
 				output.WriteLine(line);
 		if (command is not null) { WriteCommandHelp(output, command); return; }
 		var providers = HelpCloudProviders();
