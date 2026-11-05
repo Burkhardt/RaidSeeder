@@ -1,10 +1,10 @@
 # `raid` — RAI Diagram Seeder & Manager
 
-## Latest Version 4.5.18
+## Latest Version 4.6.0
 
 Show the executing machine as "on <machine>" in the CLI banner. Size both decorative rules to the complete heading, including the hostname; preserve bold cyan styling and plain redirected output.
 
-Latest release notes: [RaidSeeder 4.5.18 release notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md#4518).
+Latest release notes: [RaidSeeder 4.6.0 release notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md#460).
 
 ## Previous Versions
 
@@ -107,7 +107,7 @@ same command, migrate explicitly:
 
 ```bash
 dotnet tool uninstall --global RaidCli
-dotnet tool install --global RaidSeeder --version 4.5.18
+dotnet tool install --global RaidSeeder --version 4.6.0
 ```
 
 ## Commands
