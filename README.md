@@ -1,12 +1,10 @@
 # `raid` — RAI Diagram Seeder & Manager
 
-[Code signing policy](https://github.com/Burkhardt/RAIkeep/blob/main/README_codesigning.md) · SignPath Foundation application in preparation; signing is not yet active.
-
-## Latest Version 4.6.6
+## Latest Version 4.6.7
 
 Show the executing machine as "on <machine>" in the CLI banner. Size both decorative rules to the complete heading, including the hostname; preserve bold cyan styling and plain redirected output.
 
-Latest release notes: [RaidSeeder 4.6.6 release notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md#466).
+Latest release notes: [RaidSeeder 4.6.7 release notes](https://github.com/Burkhardt/RAIkeep/blob/main/doc/releases/v4.x/RaidSeeder_RELEASE_NOTES_4.x.md#467).
 
 ## Previous Versions
 
@@ -109,7 +107,7 @@ same command, migrate explicitly:
 
 ```bash
 dotnet tool uninstall --global RaidCli
-dotnet tool install --global RaidSeeder --version 4.6.6
+dotnet tool install --global RaidSeeder --version 4.6.7
 ```
 
 ## Commands
