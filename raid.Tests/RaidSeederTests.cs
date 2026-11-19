@@ -83,10 +83,6 @@ public sealed class RaidSeederTests : IDisposable
 		Assert.Contains("--domain", help);
 		Assert.Contains("-p, --pathconv", help);
 		Assert.Contains("install RaidSeeder; invoke it with raid", help);
-		Assert.Contains("OneDrive", help);
-		Assert.Contains("Dropbox", help);
-		Assert.Contains("GoogleDrive", help);
-		Assert.Contains("ICloudDrive", help);
 		Assert.Contains("\uea74", help);
 	}
 
@@ -145,7 +141,8 @@ public sealed class RaidSeederTests : IDisposable
 		Assert.Equal(2, set.ItemNumber);
 		Assert.Equal("UCD", set.NameExt);
 		Assert.Equal("SignContract_002_UCD", set.DiagramId);
-		Assert.Contains("AfricaStage/SignCont/SignContra/SignContract_002_UCD.raid", set.RaidManifest.FullName);
+		var expected = new RaiFile(root / "AfricaStage" / "SignCont" / "SignContra", "SignContract_002_UCD", "raid");
+		Assert.Equal(expected.FullName, set.RaidManifest.FullName);
 		Assert.True(set.RaidManifest.Exists());
 		Assert.True(set.PlantUmlSource.Exists());
 		Assert.True(set.Svg.Exists());

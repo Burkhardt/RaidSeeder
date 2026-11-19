@@ -160,7 +160,10 @@ RAIkeep configuration was not found at '~/.config/RAIkeep.json5'. Run 'amafu ini
 
 `.raid` is authoritative. Export derives content in memory and does not trust
 or mutate a stored sibling. Refresh writes a derivative only when it is missing
-or stale and never rewrites the authoritative manifest. Managed files are
+or stale and never rewrites the authoritative manifest.
+Current derivatives remain untouched whether they use LF or CRLF line endings,
+preserving their last-write timestamps.
+Managed files are
 created directly at their final `RaiFile` location; no TempDir-to-cloud move or
 directory swap is used.
 
